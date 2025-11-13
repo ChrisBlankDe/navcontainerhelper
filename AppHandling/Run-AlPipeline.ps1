@@ -838,7 +838,7 @@ if ($bcptTestFolders) {
 
 $artifactUrl = ""
 $filesOnly = $false
-$IsBcSaaSInfrastructure = $bcAuthContext.PSObject.Properties.Name -contains 'scopes' -and $bcAuthContext.scopes -in @('https://api.businesscentral.dynamics.com/','https://projectmadeira.com/')
+$IsBcSaaSInfrastructure = $bcAuthContext -and $bcAuthContext.PSObject.Properties.Name -contains 'scopes' -and $bcAuthContext.scopes -in @('https://api.businesscentral.dynamics.com/','https://projectmadeira.com/')
 Write-Host "IsBcSaaSInfrastructure: $IsBcSaaSInfrastructure"
 if ($IsBcSaaSInfrastructure) {
     if ("$environment" -eq "") {
@@ -3153,3 +3153,4 @@ finally {
 }
 }
 Export-ModuleMember -Function Run-AlPipeline
+
