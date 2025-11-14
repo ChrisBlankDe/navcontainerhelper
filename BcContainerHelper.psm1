@@ -4,7 +4,7 @@ param(
     [string[]] $bcContainerHelperConfigFile = @(),
     [switch] $useVolumes
 )
-
+Write-Host "BcContainerHelper CBL Custom Version"
 . (Join-Path $PSScriptRoot "InitializeModule.ps1") `
     -Silent:$Silent `
     -bcContainerHelperConfigFile $bcContainerHelperConfigFile `
