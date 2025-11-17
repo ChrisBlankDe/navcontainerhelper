@@ -2880,7 +2880,7 @@ if ($buildArtifactFolder -and (Test-Path $bcptResultsFile)) {
 Write-GroupEnd
 }
 
-if ($createContainer -and !$doNotRunPageScriptingTests -and $pageScriptingTests -and $pageScriptingTestResultsFolder -and $pageScriptingTestResultsFile) {
+if (!$doNotRunPageScriptingTests -and $pageScriptingTests -and $pageScriptingTestResultsFolder -and $pageScriptingTestResultsFile) {
 if ($restoreDatabases -contains 'BeforePageScriptingTests' -and $restoreDatabases -notcontains 'BeforeEachPageScriptingTest') {
     Write-GroupStart -Message "Restoring databases before page scripting tests"
     Invoke-Command -ScriptBlock $RestoreDatabasesInBcContainer -ArgumentList @{"containerName" = (GetBuildContainer)}
