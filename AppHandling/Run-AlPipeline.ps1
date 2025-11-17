@@ -533,11 +533,16 @@ function GetInstalledApps {
 
     function RunPageScriptingTests {
         param(
-            [string] $containerName,
-            [string] $testCountry
-        )
+            [Hashtable] $parameters
+        ) 
         ###
-    
+        $containerName = $parameters.containerName
+        $tenant = $parameters.tenant
+        $credential = $parameters.credential
+        $pageScriptingTests = $parameters.pageScriptingTests
+        $restoreDatabases = $parameters.restoreDatabases
+        $pageScriptingTestResultsFile = $parameters.pageScriptingTestResultsFile
+        $pageScriptingTestResultsFolder = $parameters.pageScriptingTestResultsFolder
 
         # Install npm package for page scripting tests
         pwsh -command { npm i @microsoft/bc-replay@0.1.67 --save --silent }
@@ -3006,7 +3011,12 @@ if ($testCountry) {
 }
 Invoke-Command  -ScriptBlock $RunPageScriptingTests -ArgumentList @{
     "containerName" = (GetBuildContainer)
-    "testCountry"=$testCountry
+    "tenant" = $tenant
+    "credential" = $credential
+    "pageScriptingTests" = $pageScriptingTests
+    "restoreDatabases" = $restoreDatabases
+    "pageScriptingTestResultsFolder" = $pageScriptingTestResultsFolder
+    "pageScriptingTestResultsFile" = $pageScriptingTestResultsFile
 }
  ###
 } | ForEach-Object { Write-Host -ForegroundColor Yellow "`nRunning Page Scripting Tests took $([int]$_.TotalSeconds) seconds" }
