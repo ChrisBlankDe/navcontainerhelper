@@ -543,13 +543,14 @@ function GetInstalledApps {
         $restoreDatabases = $parameters.restoreDatabases
         $pageScriptingTestResultsFile = $parameters.pageScriptingTestResultsFile
         $pageScriptingTestResultsFolder = $parameters.pageScriptingTestResultsFolder
+        $startAddress = $parameters.startAddress
+         # authcontext + environment
 
         # Install npm package for page scripting tests
         pwsh -command { npm i @microsoft/bc-replay@0.1.67 --save --silent }
 
         ${env:containerUsername} = $credential.UserName
         ${env:containerPassword} = $credential.Password | Get-PlainText
-        $startAddress = "http://$containerName/BC?tenant=$tenant"
 
         $usedNames = @()
 
@@ -3017,6 +3018,9 @@ $Parameters = @{
     "restoreDatabases" = $restoreDatabases
     "pageScriptingTestResultsFolder" = $pageScriptingTestResultsFolder
     "pageScriptingTestResultsFile" = $pageScriptingTestResultsFile
+    "startAddress" = "http://$containerName/BC?tenant=$tenant"
+    "bcAuthContext" = $bcAuthContext
+    "environment" = $environment
 }
 Invoke-Command  -ScriptBlock $RunPageScriptingTests -ArgumentList $Parameters 
    
