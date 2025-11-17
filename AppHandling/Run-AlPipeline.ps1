@@ -1371,7 +1371,7 @@ if ($InstallMissingDependencies) {
 if ($RunPageScriptingTests) {
     Write-Host -ForegroundColor Yellow "RunPageScriptingTests override"; Write-Host $RunPageScriptingTests.ToString()
 } else {
-    $RunPageScriptingTests = { Param([Hashtable]$parameters) RunPageScriptingTests @parameters }
+    $RunPageScriptingTests = { Param([Hashtable]$parameters) RunPageScriptingTests $parameters }
 }
 Write-GroupEnd
 
@@ -3009,7 +3009,7 @@ Measure-Command {
 if ($testCountry) {
     Write-Host -ForegroundColor Yellow "Running Page Scripting Tests for additional country $testCountry"
 }
-Invoke-Command  -ScriptBlock $RunPageScriptingTests -ArgumentList @{
+$Parameters = @{
     "containerName" = (GetBuildContainer)
     "tenant" = $tenant
     "credential" = $credential
@@ -3018,7 +3018,9 @@ Invoke-Command  -ScriptBlock $RunPageScriptingTests -ArgumentList @{
     "pageScriptingTestResultsFolder" = $pageScriptingTestResultsFolder
     "pageScriptingTestResultsFile" = $pageScriptingTestResultsFile
 }
- ###
+Invoke-Command  -ScriptBlock $RunPageScriptingTests -ArgumentList $Parameters 
+   
+###
 } | ForEach-Object { Write-Host -ForegroundColor Yellow "`nRunning Page Scripting Tests took $([int]$_.TotalSeconds) seconds" }
 Write-GroupEnd
 }
