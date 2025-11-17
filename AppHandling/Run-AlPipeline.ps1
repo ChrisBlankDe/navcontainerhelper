@@ -838,7 +838,7 @@ if ($bcptTestFolders) {
 
 $artifactUrl = ""
 $filesOnly = $false
-$IsBcSaaSInfrastructure = $bcAuthContext -and $bcAuthContext.PSObject.Properties.Name -contains 'scopes' -and $bcAuthContext.scopes -in @('https://api.businesscentral.dynamics.com/','https://projectmadeira.com/')
+$IsBcSaaSInfrastructure = $bcAuthContext -and $bcAuthContext -is [Hashtable] -and $bcAuthContext.ContainsKey('scopes') -and $bcAuthContext.scopes -in @('https://api.businesscentral.dynamics.com/', 'https://projectmadeira.com/')
 Write-Host "IsBcSaaSInfrastructure: $IsBcSaaSInfrastructure"
 if ($IsBcSaaSInfrastructure) {
     if ("$environment" -eq "") {
